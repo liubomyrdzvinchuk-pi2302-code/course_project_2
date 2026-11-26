@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title data-i18n="meta.vacancies.html.title">Вакансії — пошук роботи в Україні | Job Listing</title>
+<meta name="description" content="Каталог вакансій з фільтрами за містом, категорією та типом зайнятості. Сортуйте за датою, зарплатою або назвою." data-i18n-content="meta.vacancies.html.desc">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="logo" href="index.html"><img src="assets/img/logo.webp" width="161" height="28" alt="Job Listing"></a>
+    <button class="burger" type="button" aria-expanded="false" aria-controls="main-nav" aria-label="Меню" data-i18n-aria-label="nav.menu">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="main-nav" id="main-nav" aria-label="Основне меню" data-i18n-aria-label="nav.label">
+      <ul class="nav-list">
+        <li><a href="index.html" data-i18n="nav.home">Головна</a></li>
+        <li><a href="about.html" data-i18n="nav.about">Про нас</a></li>
+        <li><a href="vacancies.html" aria-current="page" data-i18n="nav.jobs">Вакансії</a></li>
+        <li><a href="blog.html" data-i18n="nav.blog">Блог</a></li>
+      </ul>
+      <div class="nav-actions">
+        <div class="lang-switch" role="group" aria-label="Мова сайту" data-i18n-aria-label="lang.label">
+          <button type="button" data-lang="uk" aria-pressed="true">UA</button>
+          <button type="button" data-lang="en" aria-pressed="false">EN</button>
+        </div>
+        <button class="btn" type="button" data-open-modal="contact" data-i18n="nav.contact">Контакти</button>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main>
+<section class="page-hero">
+  <div class="container">
+    <h1 data-i18n="jobs.h1">Вакансії</h1>
+    <nav class="breadcrumbs" aria-label="Навігація" data-i18n-aria-label="crumbs">
+      <a href="index.html" data-i18n="nav.home">Головна</a>
+      <svg class="icon" aria-hidden="true" focusable="false"><use href="assets/img/sprite.svg#icon-arrow-right"></use></svg>
+      <span data-i18n="jobs.crumb">Вакансії</span>
+    </nav>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container container--narrow">
+    <form class="filter-panel" id="filter-form" action="vacancies.html" method="get" role="search">
+      <div>
+        <label class="visually-hidden" for="flt-q" data-i18n="filter.q.label">Пошук за словом</label>
+        <input class="field-input" id="flt-q" name="q" type="search" autocomplete="off" placeholder="Назва, компанія або слово з опису" data-i18n-placeholder="filter.q">
+      </div>
+      <div>
+        <label class="visually-hidden" for="flt-category" data-i18n="filter.cat.label">Категорія</label>
+        <select class="field-select" id="flt-category" name="category"><option value="" data-i18n="search.cat">Усі категорії</option></select>
+      </div>
+      <div>
+        <label class="visually-hidden" for="flt-location" data-i18n="filter.loc.label">Місто</label>
+        <select class="field-select" id="flt-location" name="location"><option value="" data-i18n="filter.loc">Усі міста</option></select>
+      </div>
+      <div>
+        <label class="visually-hidden" for="flt-type" data-i18n="filter.type.label">Тип зайнятості</label>
+        <select class="field-select" id="flt-type" name="type">
+          <option value="" data-i18n="filter.type">Будь-яка зайнятість</option>
+          <option value="full" data-i18n="jobs.full">Повна</option>
+          <option value="part" data-i18n="jobs.part">Часткова</option>
+          <option value="intern" data-i18n="jobs.intern">Стажування</option>
+        </select>
+      </div>
+      <button class="btn" type="submit"><svg class="icon" aria-hidden="true" focusable="false"><use href="assets/img/sprite.svg#icon-search"></use></svg> <span data-i18n="search.btn">Пошук</span></button>
+      <input type="hidden" name="sort" id="flt-sort-hidden" value="">
+    </form>
+
+    <div class="results-bar">
+      <p id="results-count" role="status"></p>
+      <label for="sort-select"><span data-i18n="sort.label">Сортувати:</span>
+        <select class="field-select" id="sort-select">
+          <option value="date" data-i18n="sort.date">За датою</option>
+          <option value="salary" data-i18n="sort.salary">За зарплатою</option>
+          <option value="rating" data-i18n="sort.rating">За рейтингом</option>
+          <option value="title" data-i18n="sort.title">За назвою</option>
+        </select>
+      </label>
+    </div>
+
+    <div class="job-list" id="job-list" aria-live="polite"></div>
+    <nav class="pagination" id="job-pages" aria-label="Сторінки" data-i18n-aria-label="pages.label"></nav>
+  </div>
+</section>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <h2 data-i18n="footer.menu">Розділи сайту</h2>
+        <ul class="footer-links">
+          <li><a href="index.html" data-i18n="nav.home">Головна</a></li>
+          <li><a href="about.html" data-i18n="nav.about">Про нас</a></li>
+          <li><a href="vacancies.html" data-i18n="nav.jobs">Вакансії</a></li>
+          <li><a href="blog.html" data-i18n="nav.blog">Блог</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2 data-i18n="footer.news">Розсилка</h2>
+        <p data-i18n="footer.news.text">Нам можна довіряти: ми надсилаємо лише акційні пропозиції, жодного спаму.</p>
+        <form class="newsletter-form" id="newsletter-form" novalidate>
+          <label class="visually-hidden" for="newsletter-email" data-i18n="footer.email">Ваша електронна адреса</label>
+          <input class="field-input" id="newsletter-email" name="email" type="email" autocomplete="email" placeholder="Введіть e-mail" data-i18n-placeholder="footer.email.ph">
+          <button class="btn" type="submit"><span data-i18n="footer.subscribe">Підписатися</span> <svg class="icon" aria-hidden="true" focusable="false"><use href="assets/img/sprite.svg#icon-arrow-right"></use></svg></button>
+          <p class="form-note" id="newsletter-note" role="status"></p>
+        </form>
+      </div>
+      <div>
+        <h2 data-i18n="footer.insta">Стрічка Instagram</h2>
+        <div class="insta-grid">
+          <img src="assets/img/insta-winter-walk.webp" width="58" height="58" loading="lazy" alt="Фото з Instagram 1" data-i18n-alt="insta.0">
+          <img src="assets/img/insta-rice-terrace.webp" width="58" height="58" loading="lazy" alt="Фото з Instagram 2" data-i18n-alt="insta.1">
+          <img src="assets/img/insta-denim-backpack.webp" width="58" height="58" loading="lazy" alt="Фото з Instagram 3" data-i18n-alt="insta.2">
+          <img src="assets/img/insta-taj-mahal.webp" width="58" height="58" loading="lazy" alt="Фото з Instagram 4" data-i18n-alt="insta.3">
+          <img src="assets/img/insta-suitcase-travel.webp" width="58" height="58" loading="lazy" alt="Фото з Instagram 5" data-i18n-alt="insta.4">
+          <img src="assets/img/insta-sunset-boats.webp" width="58" height="58" loading="lazy" alt="Фото з Instagram 6" data-i18n-alt="insta.5">
+          <img src="assets/img/insta-beach-hat.webp" width="58" height="58" loading="lazy" alt="Фото з Instagram 7" data-i18n-alt="insta.6">
+          <img src="assets/img/insta-winter-hood-closeup.webp" width="58" height="58" loading="lazy" alt="Фото з Instagram 8" data-i18n-alt="insta.7">
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p><span data-i18n="footer.copy">© 2026 Усі права захищено | Цей шаблон створено з</span> <span class="heart" role="img" aria-label="любов’ю" data-i18n-aria-label="footer.love">♥</span></p>
+      <div class="socials"><a href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><svg class="icon" aria-hidden="true" focusable="false"><use href="assets/img/sprite.svg#icon-facebook"></use></svg></a><a href="https://twitter.com/" target="_blank" rel="noopener noreferrer" aria-label="Twitter"><svg class="icon" aria-hidden="true" focusable="false"><use href="assets/img/sprite.svg#icon-twitter"></use></svg></a><a href="https://dribbble.com/" target="_blank" rel="noopener noreferrer" aria-label="Dribbble"><svg class="icon" aria-hidden="true" focusable="false"><use href="assets/img/sprite.svg#icon-dribbble"></use></svg></a><a href="https://www.behance.net/" target="_blank" rel="noopener noreferrer" aria-label="Behance"><svg class="icon" aria-hidden="true" focusable="false"><use href="assets/img/sprite.svg#icon-behance"></use></svg></a></div>
+    </div>
+  </div>
+</footer>
+
+<dialog class="modal" id="modal" aria-labelledby="modal-title">
+  <button class="modal__close" type="button" data-close-modal aria-label="Закрити" data-i18n-aria-label="modal.close"><svg class="icon" aria-hidden="true" focusable="false"><use href="assets/img/sprite.svg#icon-close"></use></svg></button>
+  <h2 id="modal-title"></h2>
+  <p class="modal__lead" id="modal-lead"></p>
+  <form id="modal-form" novalidate>
+    <input type="hidden" name="kind" value="contact">
+    <input type="hidden" name="job_id" value="">
+    <div class="form-row">
+        <label for="f-name" data-i18n="form.name">Ім’я</label>
+        <input id="f-name" name="name" type="text" autocomplete="name">
+        <p class="form-error" data-error-for="name"></p>
+      </div>
+    <div class="form-row">
+        <label for="f-email" data-i18n="form.email">Електронна пошта</label>
+        <input id="f-email" name="email" type="email" autocomplete="email">
+        <p class="form-error" data-error-for="email"></p>
+      </div>
+    <div class="form-row">
+        <label for="f-phone" data-i18n="form.phone">Телефон (необов’язково)</label>
+        <input id="f-phone" name="phone" type="tel" autocomplete="tel">
+        <p class="form-error" data-error-for="phone"></p>
+      </div>
+    <div class="form-row">
+        <label for="f-message" data-i18n="form.message">Повідомлення</label>
+        <textarea id="f-message" name="message" rows="4"></textarea>
+        <p class="form-error" data-error-for="message"></p>
+      </div>
+    <button class="btn" type="submit" id="modal-submit"><span data-i18n="form.send">Надіслати</span></button>
+    <p class="form-note" id="modal-note" role="status"></p>
+  </form>
+</dialog>
+
+<button class="to-top" type="button" hidden aria-label="Нагору" data-i18n-aria-label="totop"><svg class="icon" aria-hidden="true" focusable="false"><use href="assets/img/sprite.svg#icon-arrow-up"></use></svg></button>
+
+<script src="assets/js/data.js" defer></script>
+<script src="assets/js/i18n.js" defer></script>
+<script src="assets/js/common.js" defer></script>
+<script src="assets/js/ui.js" defer></script>
+<script src="assets/js/vacancies.js" defer></script>
+</body>
+</html>
