@@ -1335,7 +1335,7 @@ button {
 }
 
 /* the review cards have extra room under them for the shadow, so their arrows sit a little higher */
-.slider-wrap:has(#reviews-track) .slider-arrow {
+.slider-wrap--reviews .slider-arrow {
   margin-top: -34px;
 }
 
@@ -1347,12 +1347,12 @@ button {
     margin-top: -18px;
   }
 
-  .slider-wrap:has(#reviews-track) .slider-arrow {
+  .slider-wrap--reviews .slider-arrow {
     margin-top: -30px;
   }
 
   /* the vacancy cards are swiped with a finger on a phone, the dots remain */
-  .slider-wrap:has(#hot-track) .slider-arrow {
+  .slider-wrap--hot .slider-arrow {
     display: none;
   }
 

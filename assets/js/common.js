@@ -290,9 +290,8 @@ function locale() {
 }
 
 function formatSalary(job) {
-  var format = new Intl.NumberFormat(locale());
   if (!job.salary_from && !job.salary_to) return t('job.salary.none');
-  return format.format(job.salary_from) + ' – ' + format.format(job.salary_to) + ' ₴';
+  return job.salary_from.toLocaleString(locale()) + ' – ' + job.salary_to.toLocaleString(locale()) + ' ₴';
 }
 
 function timeAgo(isoDate) {
@@ -455,7 +454,7 @@ function setupSlider(track, dotsBox) {
     };
   });
 
-  track.addEventListener('scroll', function () { window.requestAnimationFrame(update); });
+  track.addEventListener('scroll', update);
   update();
 }
 
