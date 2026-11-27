@@ -34,23 +34,25 @@ async function loadTestimonials() {
   await loadInto(track, async function () {
     var reviews = await apiGet('testimonials');
     track.replaceChildren();
-    reviews.forEach(function (review) {
+    reviews.forEach(function (review, index) {
       var card = el('article', 'testimonial');
-      if (review.logo) {
-        var logo = el('img', 'testimonial__logo');
-        logo.src = imageFile(review.logo);
-        logo.alt = review.author;
-        logo.width = 64;
-        logo.height = 38;
-        logo.loading = 'lazy';
-        card.appendChild(logo);
-      } else {
-        // an empty block keeps all cards of the same height
-        card.appendChild(el('div', 'testimonial__logo'));
-      }
-      var title = el('h3', '', review.author + ' ');
-      title.appendChild(stars(review.rating));
-      card.append(title, el('p', '', review.text));
+
+      // round avatar with the first letter of the company; the colour changes from card to card
+      var letter = review.author.replace(/[^\p{L}\p{N}]/gu, '').charAt(0).toUpperCase();
+      var avatar = el('div', 'testimonial__avatar avatar-' + (index % 4), letter);
+      avatar.setAttribute('aria-hidden', 'true');
+
+      var title = el('h3', '', review.author);
+      var who = el('div');
+      who.append(title, stars(review.rating));
+
+      var top = el('div', 'testimonial__top');
+      top.append(avatar, who);
+
+      var mark = el('span', 'testimonial__mark', '“');
+      mark.setAttribute('aria-hidden', 'true');
+
+      card.append(mark, top, el('p', '', review.text));
       track.appendChild(card);
     });
     setupSlider(track, document.getElementById('reviews-dots'));

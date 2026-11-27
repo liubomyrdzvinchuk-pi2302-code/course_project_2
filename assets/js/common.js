@@ -51,7 +51,7 @@ function jobView(job, lang) {
     salary_to: job.salary_to,
     tags: pick(job, 'tags', lang),
     logo: job.logo,
-    photo: JOB_PHOTOS[job.title_en],
+    photo: USE_JOB_PHOTOS ? JOB_PHOTOS[job.title_en] : undefined,
     featured: job.featured,
     rating: job.rating,
     created_at: agoToIso(job.age_min),
@@ -221,7 +221,9 @@ async function apiPost(path, body) {
 
   if (path === 'applications') {
     var contact = body.kind !== 'apply';
+    var employer = body.kind === 'employer';
     errors = validateFields(body, {
+      company: { required: employer, min: employer ? 2 : 0, max: 100 },
       name: { required: true, min: 2, max: 80 },
       email: { required: true, type: 'email', max: 120 },
       phone: { type: 'phone' },
@@ -311,6 +313,9 @@ function monthName(month) {
 
 // A photo for every profession: put the file assets/img/jobs/<name>.webp (see the README in that folder).
 // If the file is missing, the company logo or the first letter of its name is shown instead.
+// Change false to true after the photos are added, otherwise the browser asks for files that do not exist yet.
+var USE_JOB_PHOTOS = false;
+
 var JOB_PHOTOS = {
   'Illustration Designer': 'illustrator',
   'Creative Designer': 'designer',
@@ -419,15 +424,36 @@ function setupSlider(track, dotsBox) {
     return dot;
   });
 
-  function update() {
+  var arrows = track.parentElement.querySelectorAll('[data-slide]');
+
+  function currentIndex() {
     var current = 0;
     items.forEach(function (item, index) {
       if (Math.abs(item.offsetLeft - track.scrollLeft) < Math.abs(items[current].offsetLeft - track.scrollLeft)) {
         current = index;
       }
     });
-    dots.forEach(function (dot, index) { dot.setAttribute('aria-current', String(index === current)); });
+    return current;
   }
+
+  function update() {
+    var current = currentIndex();
+    dots.forEach(function (dot, index) { dot.setAttribute('aria-current', String(index === current)); });
+    // the arrows are switched off at the first and the last card
+    var atEnd = track.scrollLeft + track.clientWidth >= track.scrollWidth - 2;
+    arrows.forEach(function (arrow) {
+      var step = Number(arrow.dataset.slide);
+      arrow.disabled = step < 0 ? current === 0 : atEnd || current === items.length - 1;
+    });
+  }
+
+  // an arrow moves the row by one card
+  arrows.forEach(function (arrow) {
+    arrow.onclick = function () {
+      var target = Math.min(Math.max(currentIndex() + Number(arrow.dataset.slide), 0), items.length - 1);
+      track.scrollTo({ left: items[target].offsetLeft, behavior: 'smooth' });
+    };
+  });
 
   track.addEventListener('scroll', function () { window.requestAnimationFrame(update); });
   update();
@@ -440,25 +466,31 @@ function renderPagination(container, page, pages, hrefFor) {
   container.replaceChildren();
   if (pages <= 1) return;
 
+  // label is a page number or the name of an arrow icon
   function link(label, target, current, ariaLabel) {
     var item;
+    var isArrow = label.indexOf('arrow') === 0;
     if (target < 1 || target > pages || current) {
-      item = el('span', '', label);
+      item = el('span', '', isArrow ? '' : label);
       if (current) item.setAttribute('aria-current', 'page');
       else item.setAttribute('aria-disabled', 'true');
     } else {
-      item = el('a', '', label);
+      item = el('a', '', isArrow ? '' : label);
       item.href = hrefFor(target);
+    }
+    if (isArrow) {
+      item.appendChild(svgIcon('arrow-right'));
+      if (label === 'arrow-prev') item.classList.add('is-prev');
     }
     if (ariaLabel) item.setAttribute('aria-label', ariaLabel);
     container.appendChild(item);
   }
 
-  link('‹', page - 1, false, t('prev'));
+  link('arrow-prev', page - 1, false, t('prev'));
   for (var number = 1; number <= pages; number++) {
     link(String(number), number, number === page, t('page') + ' ' + number);
   }
-  link('›', page + 1, false, t('next'));
+  link('arrow-next', page + 1, false, t('next'));
 }
 
 // ---------- fill a <select> with options from the API ----------

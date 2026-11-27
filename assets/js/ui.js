@@ -55,7 +55,7 @@ function showFieldError(form, field, code) {
 
 // ---------- modal window ----------
 
-var FORM_FIELDS = ['name', 'email', 'phone', 'message'];
+var FORM_FIELDS = ['company', 'name', 'email', 'phone', 'message'];
 
 var modal = document.getElementById('modal');
 var modalForm = document.getElementById('modal-form');
@@ -69,9 +69,11 @@ function openModal(kind, job) {
 
   modalForm.elements.kind.value = kind;
   modalForm.elements.job_id.value = job ? job.id : '';
+  // the company field exists only in the employer form
+  modalForm.querySelector('[data-only="employer"]').hidden = kind !== 'employer';
   document.getElementById('modal-title').textContent = t('modal.' + kind + '.title');
   document.getElementById('modal-lead').textContent =
-    job ? t('modal.apply.lead') + ' ' + job.title : t('modal.contact.lead');
+    job ? t('modal.apply.lead') + ' ' + job.title : t('modal.' + kind + '.lead');
 
   setMenu(false);
   modal.showModal();
@@ -83,8 +85,50 @@ document.addEventListener('click', function (event) {
     openModal(opener.dataset.openModal);
     return;
   }
+  // "Apply" on a vacancy: first the window with the job, then the form
   var apply = event.target.closest('[data-job-id]');
-  if (apply) openModal('apply', { id: apply.dataset.jobId, title: apply.dataset.jobTitle });
+  if (apply) openJobModal(Number(apply.dataset.jobId));
+});
+
+
+// ---------- window with the job details ----------
+
+var jobModal = document.getElementById('job-modal');
+var openedJob = null;
+
+function openJobModal(id) {
+  var row = DATA.jobs.filter(function (job) { return job.id === id; })[0];
+  if (!row) return;
+  var job = jobView(row, getLang());
+  openedJob = job;
+
+  document.getElementById('job-modal-logo').replaceChildren(companyLogo(job, 'job-card__logo'));
+  document.getElementById('job-modal-title').textContent = job.title;
+  document.getElementById('job-modal-company').textContent = job.company;
+  document.getElementById('job-modal-info').replaceChildren(
+    jobMeta('pin', job.address),
+    jobMeta('money', formatSalary(job)),
+    el('p', 'job-card__type', t('job.type') + ' ' + t('job.' + job.job_type))
+  );
+  document.getElementById('job-modal-desc').textContent = job.description;
+  var tags = document.getElementById('job-modal-tags');
+  tags.replaceChildren();
+  job.tags.forEach(function (tag) { tags.appendChild(el('span', 'tag', tag)); });
+
+  jobModal.showModal();
+  jobModal.scrollTop = 0;
+}
+
+// the button under the job: this window closes and the form opens
+document.getElementById('job-modal-fill').addEventListener('click', function () {
+  jobModal.close();
+  openModal('apply', { id: openedJob.id, title: openedJob.title });
+});
+
+jobModal.querySelector('[data-close-job]').addEventListener('click', function () { jobModal.close(); });
+
+jobModal.addEventListener('click', function (event) {
+  if (event.target === jobModal) jobModal.close();
 });
 
 // the close button
@@ -100,7 +144,9 @@ modal.addEventListener('click', function (event) {
 
 function modalRules() {
   var isApply = modalForm.elements.kind.value === 'apply';
+  var isEmployer = modalForm.elements.kind.value === 'employer';
   return {
+    company: { required: isEmployer, min: isEmployer ? 2 : 0, max: 100 },
     name: { required: true, min: 2, max: 80 },
     email: { required: true, type: 'email', max: 120 },
     phone: { type: 'phone' },
@@ -130,6 +176,7 @@ modalForm.addEventListener('submit', async function (event) {
   var body = {
     kind: modalForm.elements.kind.value,
     job_id: modalForm.elements.job_id.value,
+    company: modalForm.elements.company.value,
     name: modalForm.elements.name.value,
     email: modalForm.elements.email.value,
     phone: modalForm.elements.phone.value,
@@ -218,4 +265,15 @@ if ('IntersectionObserver' in window) {
     block.classList.add('reveal');
     observer.observe(block);
   });
+
+  // "Why choose us": on a wide screen the first three cards rise one after another,
+  // and the next three follow them a little later
+  if (window.matchMedia('(min-width: 992px)').matches) {
+    document.querySelectorAll('.why-card').forEach(function (card, index) {
+      var delay = (index % 3) * 150 + Math.floor(index / 3) * 450;
+      card.style.transitionDelay = delay + 'ms';
+      // the delay is needed only for the first appearance, not for the hover effect
+      card.addEventListener('transitionend', function () { card.style.transitionDelay = ''; }, { once: true });
+    });
+  }
 }
