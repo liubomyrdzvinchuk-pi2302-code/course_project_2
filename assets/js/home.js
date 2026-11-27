@@ -26,18 +26,17 @@ async function loadHot() {
     data.items.forEach(function (job) {
       var card = el('article', 'hot-card');
 
-      var side = el('div', 'hot-card__side');
-      side.appendChild(companyLogo(job, 'hot-card__logo'));
+      // top row: logo (or the first letter of the company) and the title with the city
+      var head = el('div', 'hot-card__head');
+      var title = el('div');
+      title.appendChild(el('h3', '', job.title));
+      title.appendChild(el('p', 'hot-card__place', job.city));
+      head.append(companyLogo(job, 'hot-card__logo'), title);
+
       var link = el('a', 'btn', t('job.view'));
       link.href = 'vacancies.html?q=' + encodeURIComponent(job.title);
-      side.appendChild(link);
 
-      var text = el('div');
-      text.appendChild(el('h3', '', job.title));
-      text.appendChild(el('p', 'hot-card__place', job.city));
-      text.appendChild(el('p', 'clamp-3', job.description));
-
-      card.append(side, text);
+      card.append(head, el('p', 'clamp-3', job.description), link);
       track.appendChild(card);
     });
     setupSlider(track, document.getElementById('hot-dots'));
