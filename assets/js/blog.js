@@ -105,7 +105,18 @@ function renderPost(post) {
   comments.append(svgIcon('comment'), el('span', '', t('comments') + ' ' + post.comments));
   meta.append(likeButton(post), comments, socialLinks());
 
-  article.append(cover, cats, el('h2', '', post.title), el('p', 'post__text', post.excerpt), meta);
+  var title = el('h2');
+  var titleLink = el('a', '', post.title);
+  titleLink.href = '#article-' + post.id;
+  titleLink.dataset.articleId = post.id;
+  title.appendChild(titleLink);
+
+  var more = el('button', 'btn btn--light post__more', t('blog.read'));
+  more.type = 'button';
+  more.dataset.articleId = post.id;
+
+  cover.dataset.articleId = post.id;
+  article.append(cover, cats, title, el('p', 'post__text', post.excerpt), more, meta);
   return article;
 }
 
@@ -126,6 +137,53 @@ async function loadPosts() {
     });
   });
 }
+
+
+// ---------- article window ----------
+
+var articleWindow = document.getElementById('article');
+
+// Fills the window with the post (cover, categories, title, text) and shows it.
+function openArticle(id) {
+  var lang = getLang();
+  var post = DATA.posts.filter(function (p) { return p.id === id; })[0];
+  if (!post) return;
+
+  var cover = document.getElementById('article-cover');
+  cover.src = imageFile(post.image);
+  cover.alt = pick(post, 'title', lang);
+
+  var cats = document.getElementById('article-cats');
+  cats.replaceChildren(document.createTextNode(post.categories.map(function (slug) {
+    var category = DATA.post_categories.filter(function (c) { return c.slug === slug; })[0];
+    return category ? pick(category, 'name', lang) : slug;
+  }).join(', ')));
+
+  document.getElementById('article-title').textContent = pick(post, 'title', lang);
+  var body = document.getElementById('article-body');
+  body.replaceChildren(el('p', 'article__lead', pick(post, 'excerpt', lang)));
+  (ARTICLES[id] ? ARTICLES[id][lang] : []).forEach(function (text) {
+    body.appendChild(el('p', '', text));
+  });
+
+  articleWindow.showModal();
+  articleWindow.scrollTop = 0;
+}
+
+document.querySelector('[data-close-article]').addEventListener('click', function () { articleWindow.close(); });
+
+// a click on the dark background closes the window
+articleWindow.addEventListener('click', function (event) {
+  if (event.target === articleWindow) articleWindow.close();
+});
+
+// any element with data-article-id opens that post
+document.addEventListener('click', function (event) {
+  var opener = event.target.closest('[data-article-id]');
+  if (!opener) return;
+  event.preventDefault();
+  openArticle(Number(opener.dataset.articleId));
+});
 
 // ---------- sidebar ----------
 
@@ -168,7 +226,8 @@ async function loadSidebar() {
   data.recent.forEach(function (post, index) {
     var item = el('li');
     var link = el('a');
-    link.href = 'blog.html';
+    link.href = '#article-' + post.id;
+    link.dataset.articleId = post.id;
     var thumb = el('img');
     thumb.src = imageFile('thumb-' + ((index % 4) + 1) + '.webp');
     thumb.alt = '';

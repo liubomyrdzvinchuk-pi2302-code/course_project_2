@@ -1527,6 +1527,64 @@ button {
   text-align: center;
 }
 
+/* article window on the blog page */
+.modal--article {
+  width: min(94vw, 720px);
+  padding: 0 0 28px;
+  overflow-y: auto;
+}
+
+.modal--article .modal__close {
+  z-index: 1;
+  background: #fff;
+}
+
+.article__cover {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 670 / 312;
+  object-fit: cover;
+}
+
+.modal--article .post__cats,
+.modal--article h2,
+.article__body {
+  padding-right: 24px;
+  padding-left: 24px;
+}
+
+.modal--article .post__cats {
+  margin-top: 18px;
+}
+
+.modal--article h2 {
+  font-size: 24px;
+  line-height: 1.3;
+}
+
+.article__body p {
+  margin-top: 14px;
+  line-height: 1.7;
+}
+
+.article__lead {
+  font-weight: 500;
+}
+
+.post h2 a:hover {
+  color: var(--primary);
+}
+
+.post__cover[data-article-id],
+.post h2 a {
+  cursor: pointer;
+}
+
+.post__more {
+  margin: 4px 0 14px;
+}
+
 /* single column on phones; "minmax(0, 1fr)" lets long words and wide images shrink instead of stretching the page */
 .listing,
 .blog-layout,
