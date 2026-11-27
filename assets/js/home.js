@@ -45,17 +45,35 @@ async function loadHot() {
 
 // ---------- categories (icons come from the CSS sprite) ----------
 
+// put six photos into assets/img/categories/ (see README.md there) and set this to true
+var USE_CATEGORY_PHOTOS = true;
+
 async function loadCategories() {
   var grid = document.getElementById('category-grid');
+  grid.classList.toggle('has-photos', USE_CATEGORY_PHOTOS);
   await loadInto(grid, async function () {
     var categories = await apiGet('categories');
     grid.replaceChildren();
     categories.filter(function (category) { return category.icon !== null; }).forEach(function (category) {
       var card = el('a', 'category-card');
       card.href = 'vacancies.html?category=' + category.slug;
-      var icon = el('span', 'sprite-icon si-' + category.icon);
-      icon.setAttribute('aria-hidden', 'true');
-      card.append(icon, el('span', '', category.name));
+      var text = el('span', 'category-card__text');
+      text.append(el('strong', '', category.name), el('span', '', t('cat.count') + ' ' + category.count));
+      if (USE_CATEGORY_PHOTOS) {
+        // a real photo: assets/img/categories/<slug>.jpg
+        var photo = el('img');
+        photo.src = 'assets/img/categories/' + category.slug + '.jpg';
+        photo.alt = '';
+        photo.width = 600;
+        photo.height = 450;
+        photo.loading = 'lazy';
+        card.classList.add('category-card--photo');
+        card.append(photo, text);
+      } else {
+        var tile = el('span', 'category-card__icon tone-' + category.slug);
+        tile.appendChild(svgIcon('cat-' + category.slug));
+        card.append(tile, text);
+      }
       grid.appendChild(card);
     });
 

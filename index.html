@@ -6,7 +6,7 @@
 <title data-i18n="meta.index.html.title">Job Listing — пошук роботи та вакансій в Україні</title>
 <meta name="description" content="Тисячі актуальних вакансій у Києві, Львові, Одесі та інших містах України. Шукайте роботу за категорією, містом і типом зайнятості." data-i18n-content="meta.index.html.desc">
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
-<link rel="preload" href="assets/fonts/montserrat-cyrillic-600-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/lora-cyrillic-600-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" as="image" href="assets/img/hero-bg.webp" type="image/webp">
 <link rel="stylesheet" href="assets/css/style.css">
 </head>
@@ -48,7 +48,7 @@
       <select class="field-select" id="hero-category" name="category"><option value="" data-i18n="search.cat">Усі категорії</option></select>
       <button class="btn" type="submit"><svg class="icon" aria-hidden="true" focusable="false"><use href="assets/img/sprite.svg#icon-search"></use></svg> <span data-i18n="search.btn">Пошук</span></button>
     </form>
-    <p class="hero-tags"><span data-i18n="hero.tags">Пошук за тегами:</span> <a href="vacancies.html?q=Дизайн" data-i18n-href="tag.0.href" data-i18n="tag.0">Дизайн</a>, <a href="vacancies.html?q=Розробка" data-i18n-href="tag.1.href" data-i18n="tag.1">Розробка</a>, <a href="vacancies.html?q=Тестування" data-i18n-href="tag.2.href" data-i18n="tag.2">Тестування</a>, <a href="vacancies.html?q=Лікар" data-i18n-href="tag.3.href" data-i18n="tag.3">Лікар</a>, <a href="vacancies.html?q=Бухгалтер" data-i18n-href="tag.4.href" data-i18n="tag.4">Бухгалтер</a>, <a href="vacancies.html?q=Журналіст" data-i18n-href="tag.5.href" data-i18n="tag.5">Журналіст</a></p>
+    <p class="hero-tags"><span data-i18n="hero.tags">Пошук за тегами:</span> <a href="vacancies.html?q=Дизайн" data-i18n-href="tag.0.href" data-i18n="tag.0">Дизайн</a> <a href="vacancies.html?q=Розробка" data-i18n-href="tag.1.href" data-i18n="tag.1">Розробка</a> <a href="vacancies.html?q=Тестування" data-i18n-href="tag.2.href" data-i18n="tag.2">Тестування</a> <a href="vacancies.html?q=Лікар" data-i18n-href="tag.3.href" data-i18n="tag.3">Лікар</a> <a href="vacancies.html?q=Бухгалтер" data-i18n-href="tag.4.href" data-i18n="tag.4">Бухгалтер</a> <a href="vacancies.html?q=Журналіст" data-i18n-href="tag.5.href" data-i18n="tag.5">Журналіст</a></p>
   </div>
 </section>
 
@@ -56,10 +56,30 @@
   <div class="container">
     <h2 class="visually-hidden" id="features-title" data-i18n="features.title">Наші переваги</h2>
     <div class="features-grid">
-      <article class="feature-card"><h3 data-i18n="feat.1">Пошук</h3><p data-i18n="feat.text">Зручний пошук роботи та підбір працівників.</p></article>
-      <article class="feature-card"><h3 data-i18n="feat.2">Відгуки</h3><p data-i18n="feat.text2">Подавайте заявки на вакансії в один клік.</p></article>
-      <article class="feature-card"><h3 data-i18n="feat.3">Безпека</h3><p data-i18n="feat.text3">Ваші дані надійно захищені від сторонніх.</p></article>
-      <article class="feature-card"><h3 data-i18n="feat.4">Сповіщення</h3><p data-i18n="feat.text4">Швидко повідомляємо про нові вакансії.</p></article>
+      <article class="feature-card">
+        <span class="feature-card__num">01</span>
+        <h3 data-i18n="feat.1">Знайдіть роботу за хвилину</h3>
+        <p data-i18n="feat.text">Оберіть місто, категорію чи зарплату — і одразу побачите лише те, що вам підходить. Без реєстрації.</p>
+        <a class="feature-card__link" href="vacancies.html"><span data-i18n="feat.link1">До вакансій</span> <svg class="icon" aria-hidden="true" focusable="false"><use href="assets/img/sprite.svg#icon-arrow-right"></use></svg></a>
+      </article>
+      <article class="feature-card">
+        <span class="feature-card__num">02</span>
+        <h3 data-i18n="feat.2">Відгук за один клік</h3>
+        <p data-i18n="feat.text2">Натисніть «Подати», заповніть коротку анкету — і роботодавець отримає її одразу, без довгих резюме.</p>
+        <a class="feature-card__link" href="vacancies.html"><span data-i18n="feat.link2">Подати заявку</span> <svg class="icon" aria-hidden="true" focusable="false"><use href="assets/img/sprite.svg#icon-arrow-right"></use></svg></a>
+      </article>
+      <article class="feature-card">
+        <span class="feature-card__num">03</span>
+        <h3 data-i18n="feat.3">Ваші дані під захистом</h3>
+        <p data-i18n="feat.text3">Контакти бачить лише той, кому ви подаєте заявку. Ми нічого не передаємо третім особам.</p>
+        <a class="feature-card__link" href="about.html"><span data-i18n="feat.link3">Про сервіс</span> <svg class="icon" aria-hidden="true" focusable="false"><use href="assets/img/sprite.svg#icon-arrow-right"></use></svg></a>
+      </article>
+      <article class="feature-card">
+        <span class="feature-card__num">04</span>
+        <h3 data-i18n="feat.4">Нові вакансії — першими</h3>
+        <p data-i18n="feat.text4">Підпишіться на розсилку, і ми повідомимо, щойно з’явиться вакансія, яку варто побачити.</p>
+        <a class="feature-card__link" href="#newsletter-email"><span data-i18n="feat.link4">Підписатися</span> <svg class="icon" aria-hidden="true" focusable="false"><use href="assets/img/sprite.svg#icon-arrow-right"></use></svg></a>
+      </article>
     </div>
   </div>
 </section>
