@@ -493,6 +493,10 @@ button {
   object-fit: contain;
 }
 
+.hot-card__logo.is-photo {
+  padding: 0;
+}
+
 .hot-card h3 {
   font-size: 18px;
   font-weight: 600;
@@ -619,7 +623,12 @@ button {
   background: #fff;
 }
 
-/* shown when a company has no logo */
+.is-photo {
+  background: var(--soft);
+  object-fit: cover;
+}
+
+/* shown when a company has no photo: the icon of its category on a coloured block */
 .job-card__initials {
   display: flex;
   align-items: center;
@@ -629,9 +638,20 @@ button {
   border-radius: var(--radius-m);
   background: linear-gradient(135deg, #a99cff, var(--primary));
   color: #fff;
-  font-size: 24px;
-  font-weight: 600;
 }
+
+.job-card__initials .icon {
+  width: 34px;
+  height: 34px;
+}
+
+.cat-accounting { background: linear-gradient(135deg, #ffb36b, #f0643c); }
+.cat-development { background: linear-gradient(135deg, #a99cff, #795fff); }
+.cat-technology { background: linear-gradient(135deg, #5fd4ff, #2f8cf0); }
+.cat-media { background: linear-gradient(135deg, #ff9ac2, #e0489a); }
+.cat-medical { background: linear-gradient(135deg, #6be8b4, #1fb383); }
+.cat-government { background: linear-gradient(135deg, #8fa3c8, #4a5f8f); }
+.cat-restaurants { background: linear-gradient(135deg, #ffd36b, #f0a21c); }
 
 .job-card__tags {
   display: flex;

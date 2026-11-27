@@ -51,6 +51,7 @@ function jobView(job, lang) {
     salary_to: job.salary_to,
     tags: pick(job, 'tags', lang),
     logo: job.logo,
+    photo: JOB_PHOTOS[job.title_en],
     featured: job.featured,
     rating: job.rating,
     created_at: agoToIso(job.age_min),
@@ -308,22 +309,51 @@ function monthName(month) {
 
 // ---------- vacancy card (home page and vacancies page) ----------
 
+// A photo for every profession: put the file assets/img/jobs/<name>.webp (see the README in that folder).
+// If the file is missing, the company logo or the first letter of its name is shown instead.
+var JOB_PHOTOS = {
+  'Illustration Designer': 'illustrator',
+  'Creative Designer': 'designer',
+  'Accountant': 'accountant',
+  'Chief Accountant': 'chief-accountant',
+  'Frontend Developer': 'frontend',
+  'Backend Developer (Node.js)': 'backend',
+  'QA Engineer': 'qa',
+  'System Administrator': 'sysadmin',
+  'General Practitioner': 'doctor',
+  'Nurse': 'nurse',
+  'Civil Servant': 'civil-servant',
+  'Records Specialist': 'records',
+  'Cook': 'cook',
+  'Restaurant Manager': 'restaurant',
+  'Journalist': 'journalist',
+  'SMM Manager': 'smm'
+};
+
 function companyLogo(job, className) {
-  if (job.logo) {
-    var image = el('img', className);
-    image.src = imageFile(job.logo);
-    image.alt = job.company;
-    image.width = 109;
-    image.height = 69;
-    image.loading = 'lazy';
-    return image;
+  if (job.photo) {
+    var photo = el('img', className + ' is-photo');
+    photo.src = 'assets/img/jobs/' + job.photo + '.webp';
+    photo.alt = job.title;
+    photo.width = 109;
+    photo.height = 69;
+    photo.loading = 'lazy';
+    // no such file yet: show the logo or the letter block
+    photo.addEventListener('error', function () {
+      photo.replaceWith(logoOrLetter(job, className));
+    });
+    return photo;
   }
-  // a company without a logo gets a block with the first letter of its name
-  var letter = job.company.replace(/[^\p{L}\p{N}]/gu, '').charAt(0).toUpperCase();
-  var initials = el('div', 'job-card__initials', letter);
-  initials.setAttribute('role', 'img');
-  initials.setAttribute('aria-label', job.company);
-  return initials;
+  return logoOrLetter(job, className);
+}
+
+// A company without a photo gets a coloured block with the icon of its category.
+function logoOrLetter(job, className) {
+  var block = el('div', 'job-card__initials cat-' + job.category_slug);
+  block.appendChild(svgIcon('cat-' + job.category_slug));
+  block.setAttribute('role', 'img');
+  block.setAttribute('aria-label', job.company);
+  return block;
 }
 
 function jobMeta(iconName, text) {
