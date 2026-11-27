@@ -151,7 +151,7 @@ button {
   padding: 0 24px;
   border-radius: var(--radius-pill);
   background: var(--accent);
-  color: #fff;
+  color: var(--dark);
   font-size: 14px;
   font-weight: 500;
   text-transform: uppercase;
@@ -525,7 +525,6 @@ button {
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 3;
-
   overflow: hidden;
 }
 
@@ -599,7 +598,7 @@ button {
 .job-filters button[aria-pressed="true"] {
   background: var(--accent);
   border-color: var(--accent);
-  color: #fff;
+  color: var(--dark);
 }
 
 .job-list {
@@ -891,7 +890,7 @@ button {
 .pagination [aria-current="page"] {
   background: var(--accent);
   border-color: var(--accent);
-  color: #fff;
+  color: var(--dark);
 }
 
 .pagination [aria-disabled="true"] {
