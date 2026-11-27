@@ -135,6 +135,23 @@
   </form>
 </dialog>
 
+<dialog class="modal modal--job" id="job-modal" aria-labelledby="job-modal-title">
+  <button class="modal__close" type="button" data-close-job aria-label="Закрити" data-i18n-aria-label="modal.close"><svg class="icon" aria-hidden="true" focusable="false"><use href="assets/img/sprite.svg#icon-close"></use></svg></button>
+  <div class="job-modal__head">
+    <div id="job-modal-logo"></div>
+    <div>
+      <h2 id="job-modal-title"></h2>
+      <p class="job-modal__company" id="job-modal-company"></p>
+    </div>
+  </div>
+  <div id="job-modal-info"></div>
+  <p class="job-modal__desc" id="job-modal-desc"></p>
+  <div class="job-card__tags" id="job-modal-tags"></div>
+  <div class="job-modal__footer">
+    <button class="btn" type="button" id="job-modal-fill"><span data-i18n="job.fill">Заповнити анкету</span></button>
+  </div>
+</dialog>
+
 <button class="to-top" type="button" hidden aria-label="Нагору" data-i18n-aria-label="totop"><svg class="icon" aria-hidden="true" focusable="false"><use href="assets/img/sprite.svg#icon-arrow-up"></use></svg></button>
 
 <script src="assets/js/data.js" defer></script>
