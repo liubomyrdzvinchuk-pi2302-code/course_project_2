@@ -93,6 +93,9 @@ function renderPost(post) {
   cover.loading = 'lazy';
 
   var cats = el('p', 'post__cats');
+  var when = el('time', 'post__date', new Date(post.created_at).toLocaleDateString(locale(), { day: 'numeric', month: 'long', year: 'numeric' }));
+  when.dateTime = post.created_at.slice(0, 10);
+  cats.append(when, document.createTextNode(' · '));
   post.categories.forEach(function (category, index) {
     if (index > 0) cats.appendChild(document.createTextNode(', '));
     var link = el('a', '', category.name);
@@ -160,11 +163,35 @@ function openArticle(id) {
   }).join(', ')));
 
   document.getElementById('article-title').textContent = pick(post, 'title', lang);
+
+  // text of the article: the lead from the post, then the paragraphs and subheadings
+  var parts = [pick(post, 'excerpt', lang)].concat(ARTICLES[id] ? ARTICLES[id][lang] : []);
+  var words = parts.join(' ').split(/\s+/).length;
+  var minutes = Math.max(1, Math.round(words / 180));
+
+  // line under the title: date, author, reading time
+  var published = new Date(agoToIso(post.age_min));
+  var date = el('time', '', published.toLocaleDateString(locale(), { day: 'numeric', month: 'long', year: 'numeric' }));
+  date.dateTime = published.toISOString().slice(0, 10);
+  var info = document.getElementById('article-info');
+  info.replaceChildren(date, el('span', '', t('article.author')), el('span', '', minutes + ' ' + t('article.minutes')));
+
   var body = document.getElementById('article-body');
-  body.replaceChildren(el('p', 'article__lead', pick(post, 'excerpt', lang)));
-  (ARTICLES[id] ? ARTICLES[id][lang] : []).forEach(function (text) {
-    body.appendChild(el('p', '', text));
+  body.replaceChildren();
+  parts.forEach(function (text, index) {
+    if (text.indexOf('## ') === 0) {
+      body.appendChild(el('h3', '', text.slice(3)));
+    } else if (/^\*\*.+?\*\*/.test(text)) {
+      // "**Word.** text" - the first words are bold
+      var match = text.match(/^\*\*(.+?)\*\*\s*(.*)$/);
+      var item = el('p');
+      item.append(el('strong', '', match[1] + ' '), document.createTextNode(match[2]));
+      body.appendChild(item);
+    } else {
+      body.appendChild(el('p', index === 0 ? 'article__lead' : '', text));
+    }
   });
+  body.appendChild(el('p', 'article__source', t('article.source')));
 
   articleWindow.showModal();
   articleWindow.scrollTop = 0;

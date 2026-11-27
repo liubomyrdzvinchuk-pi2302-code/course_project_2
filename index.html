@@ -67,7 +67,11 @@
 <section class="section" aria-labelledby="hot-title">
   <div class="container">
     <h2 class="visually-hidden" id="hot-title" data-i18n="hot.title">Популярні вакансії</h2>
-    <div class="slider-track" id="hot-track"></div>
+    <div class="slider-wrap">
+      <button class="slider-arrow slider-arrow--prev" type="button" data-slide="-1" aria-label="Попередня вакансія" data-i18n-aria-label="prev.job"><svg class="icon" aria-hidden="true" focusable="false"><use href="assets/img/sprite.svg#icon-arrow-right"></use></svg></button>
+      <div class="slider-track" id="hot-track"></div>
+      <button class="slider-arrow slider-arrow--next" type="button" data-slide="1" aria-label="Наступна вакансія" data-i18n-aria-label="next.job"><svg class="icon" aria-hidden="true" focusable="false"><use href="assets/img/sprite.svg#icon-arrow-right"></use></svg></button>
+    </div>
     <div class="dots" id="hot-dots"></div>
   </div>
 </section>

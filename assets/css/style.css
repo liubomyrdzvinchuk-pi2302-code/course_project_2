@@ -551,13 +551,15 @@ button {
 }
 
 .page-hero {
-  min-height: 240px;
-  padding: 70px 0 30px;
+  min-height: 300px;
+  padding: 90px 0 50px;
 }
 
 .page-hero h1 {
-  font-size: 32px;
-  font-weight: 300;
+  margin-bottom: 14px;
+  font-size: 34px;
+  font-weight: 600;
+  letter-spacing: .5px;
   line-height: 1.2;
 }
 
@@ -1176,34 +1178,40 @@ button {
 
 .split {
   display: grid;
-  background: var(--dark);
+  gap: 40px;
+  padding-top: 60px;
+  padding-bottom: 60px;
+}
+
+.split__item {
+  display: grid;
+  gap: 24px;
+  align-items: center;
 }
 
 .split img {
   width: 100%;
-  height: 100%;
-  min-height: 220px;
-  object-fit: cover;
-}
-
-.split__text {
-  padding: 40px 25px;
-  color: #aaa;
+  height: auto;
+  border-radius: var(--radius-m);
 }
 
 .split__label {
-  margin-bottom: 14px;
-  color: #777;
-  font-size: 12px;
-  letter-spacing: 3px;
+  margin-bottom: 8px;
+  color: var(--primary);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 1px;
   text-transform: uppercase;
 }
 
 .split__text h2 {
-  margin-bottom: 14px;
-  color: #8f7bff;
-  font-size: 28px;
-  font-weight: 500;
+  margin-bottom: 12px;
+  font-size: 26px;
+  font-weight: 600;
+}
+
+.split__text p:last-child {
+  line-height: 1.7;
 }
 
 .team-grid {
@@ -1290,7 +1298,7 @@ button {
   justify-content: center;
   width: 44px;
   height: 44px;
-  margin-top: -34px;
+  margin-top: -22px;
   border: 1px solid #dcdce4;
   border-radius: 50%;
   background: #fff;
@@ -1326,12 +1334,26 @@ button {
   cursor: default;
 }
 
+/* the review cards have extra room under them for the shadow, so their arrows sit a little higher */
+.slider-wrap:has(#reviews-track) .slider-arrow {
+  margin-top: -34px;
+}
+
 /* on phones the arrows are smaller and the cards have more room at the sides */
 @media (max-width: 575px) {
   .slider-arrow {
     width: 36px;
     height: 36px;
+    margin-top: -18px;
+  }
+
+  .slider-wrap:has(#reviews-track) .slider-arrow {
     margin-top: -30px;
+  }
+
+  /* the vacancy cards are swiped with a finger on a phone, the dots remain */
+  .slider-wrap:has(#hot-track) .slider-arrow {
+    display: none;
   }
 
   .slider-arrow--prev {
@@ -1426,15 +1448,27 @@ button {
   gap: 40px;
 }
 
+/* a post is a card: white block with rounded corners, the cover reaches the edges */
 .post {
-  margin-bottom: 40px;
+  margin-bottom: 32px;
+  padding-bottom: 26px;
+  border: 1px solid #ece9ff;
+  border-radius: var(--radius-l);
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 10px 24px -14px rgba(121, 95, 255, .3);
+}
+
+.post > :not(.post__cover) {
+  margin-right: 26px;
+  margin-left: 26px;
 }
 
 .post__cover {
+  display: block;
   width: 100%;
   aspect-ratio: 670 / 312;
   object-fit: cover;
-  border-radius: var(--radius-m);
   background: var(--soft);
 }
 
@@ -1498,8 +1532,10 @@ button {
 .widget {
   margin-bottom: 30px;
   padding: 24px 20px;
-  border: 1px solid var(--line);
+  border: 1px solid #e3e0f7;
   border-radius: var(--radius-m);
+  background: #f4f2ff;
+  box-shadow: 0 6px 18px rgba(80, 60, 160, .10);
 }
 
 .widget h2 {
@@ -1511,8 +1547,9 @@ button {
 .widget-search {
   display: flex;
   height: 44px;
+  border: 1px solid #dcd8f2;
   border-radius: var(--radius-pill);
-  background: #eee;
+  background: #fff;
   overflow: hidden;
 }
 
@@ -1932,6 +1969,42 @@ button {
   line-height: 1.7;
 }
 
+.article__body h3 {
+  margin-top: 26px;
+  font-size: 19px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.article__info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  margin: 8px 24px 0;
+  color: var(--text);
+  font-size: 13px;
+}
+
+.article__info > * + *::before {
+  content: "•";
+  margin-right: 14px;
+  color: var(--primary-light);
+}
+
+.article__source {
+  margin-top: 26px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+  color: var(--text);
+  font-size: 13px;
+  font-style: italic;
+}
+
+.post__date {
+  color: var(--primary);
+  font-weight: 600;
+}
+
 .article__lead {
   font-weight: 500;
 }
@@ -2008,8 +2081,7 @@ button {
 .features-grid,
 .filter-panel,
 .search-form,
-.job-card,
-.split {
+.job-card {
   grid-template-columns: minmax(0, 1fr);
 }
 
@@ -2071,12 +2143,13 @@ button {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .split {
+  .split__item {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 40px;
   }
 
-  .split__text {
-    padding: 40px;
+  .split__item:nth-child(even) img {
+    order: 2;
   }
 
   .team-grid {
@@ -2105,8 +2178,13 @@ button {
     font-size: 36px;
   }
 
+  .page-hero {
+    min-height: 380px;
+    padding-top: 110px;
+  }
+
   .page-hero h1 {
-    font-size: 40px;
+    font-size: 44px;
   }
 
   .section-title,
@@ -2192,11 +2270,11 @@ button {
   }
 
   .page-hero {
-    min-height: clamp(240px, 21vw, 405px);
+    min-height: clamp(380px, 28vw, 480px);
   }
 
   .page-hero h1 {
-    font-size: clamp(40px, 2.5vw, 48px);
+    font-size: clamp(44px, 3vw, 54px);
   }
 
   .search-form {
@@ -2265,11 +2343,13 @@ button {
   }
 
   .split {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 70px;
+    padding-top: 90px;
+    padding-bottom: 90px;
   }
 
-  .split__text {
-    padding: 60px 40px;
+  .split__text h2 {
+    font-size: 32px;
   }
 
   .filter-panel {
@@ -2367,7 +2447,7 @@ button {
 .category-card:hover,
 .post:hover {
   transform: translateY(-4px);
-  box-shadow: 0 12px 28px rgba(40, 20, 90, .15);
+  box-shadow: 0 18px 32px -14px rgba(121, 95, 255, .4);
 }
 
 /* blocks that are on the page from the start appear when they are scrolled into view
