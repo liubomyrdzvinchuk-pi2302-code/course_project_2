@@ -50,6 +50,18 @@ var TEXTS = {
     "min.salary": "від"
   },
   "en": {
+    "tag.0.href": "vacancies.html?q=Design",
+    "tag.0": "Design",
+    "tag.1.href": "vacancies.html?q=Development",
+    "tag.1": "Development",
+    "tag.2.href": "vacancies.html?q=Testing",
+    "tag.2": "Testing",
+    "tag.3.href": "vacancies.html?q=Doctor",
+    "tag.3": "Doctor",
+    "tag.4.href": "vacancies.html?q=Accountant",
+    "tag.4": "Accountant",
+    "tag.5.href": "vacancies.html?q=Journalist",
+    "tag.5": "Journalist",
     "hero.title": "jobs posted last week",
     "search.q.label": "What are you looking for?",
     "search.q": "What are you looking for?",
@@ -198,7 +210,15 @@ var TEXTS = {
     "meta.blog.html.title": "Career blog: résumés, interviews, job search | Job Listing",
     "meta.blog.html.desc": "Tips on résumés, interviews, job search and career growth from the Job Listing team.",
     "nf.h1": "Page not found",
-    "nf.text": "It looks like this page does not exist or has been moved. Go back to the home page or browse the latest vacancies.",
+    "nf.title": "This page has already found a new job",
+    "nf.text": "It looks like this page does not exist or has been moved. While it is at an interview, you can find something better.",
+    "nf.search": "Try searching for a job",
+    "nf.job": "Missing Page Detective",
+    "nf.closed": "Closed",
+    "nf.job.company": "Lost Links Department",
+    "nf.job.l1": "Candidates: 0",
+    "nf.job.l2": "Salary: cookies and coffee",
+    "nf.job.l3": "Schedule: still looking",
     "nf.home": "Home page",
     "nf.jobs": "Browse vacancies",
     "meta.404.html.title": "Page not found | Job Listing",
@@ -263,7 +283,7 @@ function t(key) {
   return (TEXTS[lang] && TEXTS[lang][key]) || TEXTS.uk[key] || key;
 }
 
-var TRANSLATED_ATTRIBUTES = ['placeholder', 'aria-label', 'alt', 'content'];
+var TRANSLATED_ATTRIBUTES = ['placeholder', 'aria-label', 'alt', 'content', 'href'];
 
 // Replaces the texts of the page. The original Ukrainian text is remembered in data-uk.
 function applyLanguage(lang) {

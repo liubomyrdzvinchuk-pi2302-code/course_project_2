@@ -48,8 +48,33 @@
 
 <section class="section not-found">
   <div class="container">
-    <strong aria-hidden="true">404</strong>
-    <p data-i18n="nf.text">Схоже, такої сторінки не існує або її було переміщено. Поверніться на головну чи перегляньте актуальні вакансії.</p>
+    <div class="nf-code" aria-hidden="true">
+      <span>4</span>
+      <svg class="nf-lens" viewBox="0 0 100 120" focusable="false"><circle cx="46" cy="46" r="34" fill="none" stroke="currentColor" stroke-width="12"/><path d="M72 72l22 30" stroke="currentColor" stroke-width="14" stroke-linecap="round"/><circle cx="36" cy="38" r="5" fill="#49e4fa"/><circle cx="56" cy="38" r="5" fill="#49e4fa"/><path d="M34 58q12 -8 24 0" fill="none" stroke="#49e4fa" stroke-width="4" stroke-linecap="round"/></svg>
+      <span>4</span>
+    </div>
+    <h2 data-i18n="nf.title">Ця сторінка вже знайшла нову роботу</h2>
+    <p data-i18n="nf.text">Схоже, такої сторінки не існує або її було переміщено. Поки вона на співбесіді, ви можете знайти щось краще.</p>
+
+    <form class="nf-search" action="vacancies.html" method="get" role="search">
+      <label class="visually-hidden" for="nf-q" data-i18n="search.q.label">Що ви шукаєте?</label>
+      <input class="field-input" id="nf-q" name="q" type="search" autocomplete="off" placeholder="Спробуйте знайти вакансію" data-i18n-placeholder="nf.search">
+      <button class="btn" type="submit"><svg class="icon" aria-hidden="true" focusable="false"><use href="assets/img/sprite.svg#icon-search"></use></svg> <span data-i18n="search.btn">Пошук</span></button>
+    </form>
+
+    <article class="nf-card">
+      <div class="nf-card__head">
+        <h3 data-i18n="nf.job">Детектив із пошуку сторінок</h3>
+        <span class="nf-card__badge" data-i18n="nf.closed">Закрито</span>
+      </div>
+      <p data-i18n="nf.job.company">Відділ загублених посилань</p>
+      <ul>
+        <li><span data-i18n="nf.job.l1">Кандидатів: 0</span></li>
+        <li><span data-i18n="nf.job.l2">Зарплата: печиво та кава</span></li>
+        <li><span data-i18n="nf.job.l3">Графік: шукаємо досі</span></li>
+      </ul>
+    </article>
+
     <div class="cta-buttons">
       <a class="btn" href="index.html" data-i18n="nf.home">На головну</a>
       <a class="btn btn--light" href="vacancies.html" data-i18n="nf.jobs">Дивитися вакансії</a>
